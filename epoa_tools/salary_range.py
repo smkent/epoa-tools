@@ -3,8 +3,8 @@ from datetime import datetime
 
 from slugify import slugify
 
+from .complaint import ComplaintForm
 from .models import MyInfo, PayTransparencyComplaint
-from .pdf import ComplaintForm
 
 
 def build_pay_transparency_complaint() -> PayTransparencyComplaint:
