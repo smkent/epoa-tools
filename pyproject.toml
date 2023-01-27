@@ -21,6 +21,8 @@ classifiers = [
 python = "^3.8"
 fdfgen = "*"
 mdpdf = "*"
+pdf-redactor = "*"
+pypdf = "^3.3.0"
 python-slugify = "*"
 reportlab = "*"
 
