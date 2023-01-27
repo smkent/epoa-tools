@@ -31,3 +31,4 @@ class PayTransparencyComplaint:
     company_mailing_address: Optional[Address] = None
     additional_information: Optional[str] = None
     evidence_files: List[str] = field(default_factory=list)
+    redact_words: List[str] = field(default_factory=list)

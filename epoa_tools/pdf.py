@@ -4,7 +4,7 @@ import tempfile
 from datetime import datetime
 from importlib import resources
 from pathlib import Path
-from typing import Dict, Iterable, Tuple
+from typing import Dict, Iterable, List, Tuple
 
 from fdfgen import forge_fdf
 from reportlab.lib.pagesizes import LETTER  # type: ignore
@@ -13,7 +13,7 @@ from reportlab.lib.units import cm  # type: ignore
 from reportlab.platypus import Paragraph, SimpleDocTemplate  # type: ignore
 
 from .models import PayTransparencyComplaint
-from .redactor import redact
+from .redactor import Redactor
 
 FORM_FILE = "F700-200-000.pdf"
 
@@ -46,7 +46,9 @@ class ComplaintForm:
                 "flatten",
             )
             self._create_additional_info_pdf(additional_info_file)
-            evidence_files = self._redact_evidence_files()
+            evidence_files = self.data.evidence_files
+            if self.data.redact_words:
+                evidence_files = self._redact_evidence_files()
             concat_files = (
                 file_name
                 for file_name in (
@@ -182,10 +184,11 @@ class ComplaintForm:
             ]
         )
 
-    def _redact_evidence_files(self) -> Iterable[str]:
+    def _redact_evidence_files(self) -> List[str]:
+        redactor = Redactor(self.data.redact_words)
         redacted_evidence_files = []
         for i, evidence_file in enumerate(self.data.evidence_files):
             redacted_file = f"evidence-{i}.pdf"
-            redact(evidence_file, redacted_file)
+            redactor.redact(evidence_file, redacted_file)
             redacted_evidence_files.append(redacted_file)
         return redacted_evidence_files

@@ -23,6 +23,14 @@ def build_pay_transparency_complaint() -> PayTransparencyComplaint:
     )
     ap.add_argument("company_name", help="Company name")
     ap.add_argument(
+        "-r",
+        "--redact",
+        dest="redact_words",
+        metavar="word",
+        nargs="+",
+        help="Redact this word from evidence files",
+    )
+    ap.add_argument(
         "-i",
         "--addinfo",
         "--additional-information",
@@ -37,14 +45,12 @@ def build_pay_transparency_complaint() -> PayTransparencyComplaint:
         help="Evidence file(s)",
     )
     args = ap.parse_args()
-    print(args.evidence_files)
-
-    my_info = MyInfo(name=args.my_name, email=args.my_email)
     return PayTransparencyComplaint(
-        my_info=my_info,
+        my_info=MyInfo(name=args.my_name, email=args.my_email),
         company_name=args.company_name,
         additional_information=args.additional_information,
         evidence_files=args.evidence_files,
+        redact_words=args.redact_words,
     )
 
 
