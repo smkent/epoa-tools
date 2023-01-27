@@ -13,6 +13,7 @@ from reportlab.lib.units import cm  # type: ignore
 from reportlab.platypus import Paragraph, SimpleDocTemplate  # type: ignore
 
 from .models import PayTransparencyComplaint
+from .redactor import redact
 
 FORM_FILE = "F700-200-000.pdf"
 
@@ -152,12 +153,17 @@ def create_pdf(
             str(filled_file),
             "flatten",
         )
+        redacted_evidence_files = []
+        for i, evidence_file in enumerate(complaint_info.evidence_files):
+            redacted_file = f"evidence-{i}.pdf"
+            redact(evidence_file, redacted_file)
+            redacted_evidence_files.append(redacted_file)
         concat_files = (
             file_name
             for file_name in (
                 str(filled_file),
                 str(additional_information_file),
-                *complaint_info.evidence_files,
+                *redacted_evidence_files,
             )
             if Path(file_name).exists()
         )
