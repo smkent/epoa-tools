@@ -1,4 +1,5 @@
 import subprocess
+import sys
 import tempfile
 from datetime import datetime
 from importlib import resources
@@ -10,6 +11,11 @@ from fdfgen import forge_fdf
 from .models import PayTransparencyComplaint
 
 FORM_FILE = "F700-200-000.pdf"
+
+
+def _run(*cmd: str) -> None:
+    print("+ " + " ".join(cmd), file=sys.stderr)
+    subprocess.call(cmd)
 
 
 def form_path() -> Path:
@@ -87,16 +93,23 @@ def create_pdf(
         raise Exception(f"{output_file} already exists")
     with tempfile.TemporaryDirectory() as td:
         fdf_file = Path(td) / "form.fdf"
+        filled_file = Path(td) / "filled.pdf"
         with open(fdf_file, "wb") as f:
             f.write(forge_fdf("", complaint_to_fdf(complaint_info)))
-        cmd = [
+        _run(
             "pdftk",
             str(form_path()),
             "fill_form",
             str(fdf_file),
             "output",
-            output_file,
+            str(filled_file),
             "flatten",
-        ]
-        print("+ " + " ".join(cmd))
-        subprocess.call(cmd)
+        )
+        _run(
+            "pdftk",
+            str(filled_file),
+            *complaint_info.evidence_files,
+            "cat",
+            "output",
+            output_file,
+        )

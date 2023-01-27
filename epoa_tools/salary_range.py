@@ -22,11 +22,20 @@ def build_pay_transparency_complaint() -> PayTransparencyComplaint:
         help="Complainant contact email",
     )
     ap.add_argument("company_name", help="Company name")
+    ap.add_argument(
+        "evidence_files",
+        metavar="evidence_file",
+        nargs="*",
+        help="Evidence file(s)",
+    )
     args = ap.parse_args()
+    print(args.evidence_files)
 
     my_info = MyInfo(name=args.my_name, email=args.my_email)
     return PayTransparencyComplaint(
-        my_info=my_info, company_name=args.company_name
+        my_info=my_info,
+        company_name=args.company_name,
+        evidence_files=args.evidence_files,
     )
 
 

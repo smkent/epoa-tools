@@ -1,5 +1,5 @@
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import List, Optional
 
 
 @dataclass
@@ -30,3 +30,4 @@ class PayTransparencyComplaint:
     company_phone: Optional[str] = None
     company_address: Optional[Address] = None
     company_mailing_address: Optional[Address] = None
+    evidence_files: List[str] = field(default_factory=list)
