@@ -1,0 +1,103 @@
+[build-system]
+requires = ["poetry-core>=1.2.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "epoa-tools"
+version = "0.0.0"
+description = "EPOA pay transparency tools"
+license = "GPL-3.0-or-later"
+authors = ["Stephen Kent <smkent@smkent.net>"]
+readme = "README.md"
+repository = "https://github.com/smkent/epoa-tools"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+bandit = {extras = ["toml"], version = "*"}
+black = "*"
+cruft = "*"
+flake8 = "*"
+flake8-bugbear = "*"
+flake8-pyproject = "*"
+flake8-simplify = "*"
+isort = "*"
+mypy = "*"
+pep8-naming = "*"
+poethepoet = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-github-actions-annotate-failures = "*"
+pytest-sugar = "*"
+
+[tool.poetry.scripts]
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+
+[tool.poe.tasks.lint]
+cmd = "pre-commit run --all-files --show-diff-on-failure"
+help = "Check all files"
+
+[tool.poe.tasks.pytest]
+cmd = "pytest"
+help = "Run unit tests with pytest"
+
+[tool.poe.tasks.test]
+sequence = ["lint", "pytest"]
+help = "Run all tests"
+
+[tool.bandit]
+skips = ["B101"]  # assert_used
+
+[tool.black]
+line-length = 79
+
+[tool.coverage.run]
+source = ["epoa_tools"]
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+
+[tool.cruft]
+skip = [".git"]
+
+[tool.flake8]
+exclude = "./.*"
+
+[tool.isort]
+atomic = true
+profile = "black"
+line_length = 79
+
+[tool.mypy]
+files = [ "tests", "epoa_tools" ]
+mypy_path = "types"
+disallow_untyped_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+show_error_codes = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+addopts = """\
+    --cov \
+    --cov-append \
+    --cov-report term \
+    --cov-report xml:.pytest_coverage.xml \
+    --junitxml=.pytest_results.xml \
+"""
+
+# vim: ft=cfg
