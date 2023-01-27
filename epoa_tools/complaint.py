@@ -75,6 +75,9 @@ class ComplaintForm:
         self,
     ) -> Iterable[Tuple[str, str]]:
         name = self.data.my_info.name or "Anonymous"
+        signature_name = (
+            self.data.my_info.name or f"Anonymous ({self.data.my_info.email})"
+        )
 
         fdf_fields: Dict[str, str] = {}
         fdf_fields.update(
@@ -149,7 +152,7 @@ class ComplaintForm:
                     " My name on this form constitutes my signature"
                 ): "Yes",
                 # Section D
-                "Signature (Print or Type)": name,
+                "Signature (Print or Type)": signature_name,
                 "Signature Date": str(datetime.now().strftime("%B %-d, %Y")),
             }
         )
