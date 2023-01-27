@@ -19,6 +19,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
+fdfgen = "*"
 mdpdf = "*"
 
 [tool.poetry.dev-dependencies]

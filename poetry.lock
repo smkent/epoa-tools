@@ -351,6 +351,18 @@ files = [
 test = ["pytest (>=6)"]
 
 [[package]]
+name = "fdfgen"
+version = "0.16.1"
+description = "library for creating FDF files"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "fdfgen-0.16.1-py2.py3-none-any.whl", hash = "sha256:5977201fe61f18de376257a6b873012fbfdc6d20c9593c92392632e8b24038d4"},
+    {file = "fdfgen-0.16.1.tar.gz", hash = "sha256:0eda63b5eb0810843dd98437778702fb396def51090ce8a01186e5234e247f8e"},
+]
+
+[[package]]
 name = "filelock"
 version = "3.9.0"
 description = "A platform independent file lock."
@@ -1272,4 +1284,4 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "aff9658a9d55498f4da317df773f6c0040f2fcfa2b4c57d27a26ec6e69e55835"
+content-hash = "0489ef3884424d8b61b4d1bfbb9d79a037fa75b1854882c553a09a6af48e82b4"
