@@ -21,6 +21,7 @@ classifiers = [
 python = "^3.8"
 fdfgen = "*"
 mdpdf = "*"
+python-slugify = "*"
 
 [tool.poetry.dev-dependencies]
 bandit = {extras = ["toml"], version = "*"}
