@@ -48,7 +48,7 @@ class ComplaintForm:
             self._create_additional_info_pdf(additional_info_file)
             evidence_files = self.data.evidence_files
             if self.data.redact_words:
-                evidence_files = self._redact_evidence_files()
+                evidence_files = self._redact_evidence_files(Path(td))
             concat_files = (
                 file_name
                 for file_name in (
@@ -186,11 +186,11 @@ class ComplaintForm:
             ]
         )
 
-    def _redact_evidence_files(self) -> List[str]:
+    def _redact_evidence_files(self, temp_dir: Path) -> List[str]:
         redactor = Redactor(self.data.redact_words)
         redacted_evidence_files = []
         for i, evidence_file in enumerate(self.data.evidence_files):
-            redacted_file = f"evidence-{i}.pdf"
-            redactor.redact(evidence_file, redacted_file)
-            redacted_evidence_files.append(redacted_file)
+            redacted_file = temp_dir / f"evidence-{i}.pdf"
+            redactor.redact(evidence_file, str(redacted_file))
+            redacted_evidence_files.append(str(redacted_file))
         return redacted_evidence_files
