@@ -74,8 +74,7 @@ class ComplaintForm:
     def _complaint_data_to_form_data(
         self,
     ) -> Iterable[Tuple[str, str]]:
-        data = self.data
-        name = data.my_info.name or "Anonymous"
+        name = self.data.my_info.name or "Anonymous"
 
         fdf_fields: Dict[str, str] = {}
         fdf_fields.update(
@@ -88,21 +87,21 @@ class ComplaintForm:
                 "Preferred Language": "English",
             }
         )
-        if data.my_info.address:
+        if self.data.my_info.address:
             fdf_fields.update(
                 {
-                    "Mailing Address": data.my_info.address.street,
-                    "Mailing Address City": data.my_info.address.city,
-                    "Mailing Address State": data.my_info.address.state,
+                    "Mailing Address": self.data.my_info.address.street,
+                    "Mailing Address City": self.data.my_info.address.city,
+                    "Mailing Address State": self.data.my_info.address.state,
                     "Mailing Address Zip Code": str(
-                        data.my_info.address.zip_code
+                        self.data.my_info.address.zip_code
                     ),
                 }
             )
         fdf_fields.update(
             {
-                "Phone Number": data.my_info.phone or "",
-                "Email Address": data.my_info.email or "",
+                "Phone Number": self.data.my_info.phone or "",
+                "Email Address": self.data.my_info.email or "",
                 "Starting Date with this Employer": "",
                 "Are you still employed with the employer?": "Choice1",  # "No"
                 'If "No", last date employed': "",
@@ -114,32 +113,32 @@ class ComplaintForm:
                     " compensation on a job posting"
                 ): "Yes",
                 # Section B
-                "Name of Company (Business Name)": data.company_name,
+                "Name of Company (Business Name)": self.data.company_name,
                 "Company Contact (Owner, Manager, or Supervisor) Name": "",
             }
         )
-        if data.company_mailing_address:
+        if self.data.company_mailing_address:
             fdf_fields.update(
                 {
                     (
                         "Company Mailing Address"
                         " (if different from where you worked)"
-                    ): data.company_mailing_address.street,
+                    ): self.data.company_mailing_address.street,
                     "Company Mailing Address City": (
-                        data.company_mailing_address.city
+                        self.data.company_mailing_address.city
                     ),
                     "Company Mailing Address State": (
-                        data.company_mailing_address.state
+                        self.data.company_mailing_address.state
                     ),
                     "Company Mailing Address Zip Code": (
-                        data.company_mailing_address.zip_code
+                        self.data.company_mailing_address.zip_code
                     ),
                 }
             )
         fdf_fields.update(
             {
-                "Company Phone Number": data.company_phone or "",
-                "Company Email Address": data.company_email or "",
+                "Company Phone Number": self.data.company_phone or "",
+                "Company Email Address": self.data.company_email or "",
                 "Is the company still in business?": "Yes",
                 # Section C
                 (
