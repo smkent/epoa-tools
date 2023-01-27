@@ -3,7 +3,7 @@ from datetime import datetime
 from slugify import slugify
 
 from .models import MyInfo, PayTransparencyComplaint
-from .pdf import fill_pdf
+from .pdf import create_pdf
 
 
 def main() -> None:
@@ -15,5 +15,4 @@ def main() -> None:
             f"-{datetime.now().strftime('%Y%m%d')}"
         )
     )
-    print(ptc)
-    fill_pdf(ptc, output_file, overwrite=True)
+    create_pdf(ptc, output_file, overwrite=True)

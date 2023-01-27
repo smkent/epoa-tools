@@ -78,7 +78,7 @@ def complaint_to_fdf(
     return fdf_fields.items()
 
 
-def fill_pdf(
+def create_pdf(
     complaint_info: PayTransparencyComplaint,
     output_file: str = "output.pdf",
     overwrite: bool = False,
