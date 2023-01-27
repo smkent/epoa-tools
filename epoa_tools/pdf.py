@@ -1,6 +1,6 @@
-import datetime
 import subprocess
 import tempfile
+from datetime import datetime
 from importlib import resources
 from pathlib import Path
 from typing import Dict, Iterable, Tuple
@@ -72,15 +72,19 @@ def complaint_to_fdf(
             ): "Yes",
             # Section D
             "Signature (Print or Type)": name,
-            "Signature Date": str(
-                datetime.datetime.now().strftime("%B %-d, %Y")
-            ),
+            "Signature Date": str(datetime.now().strftime("%B %-d, %Y")),
         }
     )
     return fdf_fields.items()
 
 
-def fill_pdf(complaint_info: PayTransparencyComplaint) -> None:
+def fill_pdf(
+    complaint_info: PayTransparencyComplaint,
+    output_file: str = "output.pdf",
+    overwrite: bool = False,
+) -> None:
+    if not overwrite and Path(output_file).exists():
+        raise Exception(f"{output_file} already exists")
     with tempfile.TemporaryDirectory() as td:
         fdf_file = Path(td) / "form.fdf"
         with open(fdf_file, "wb") as f:
@@ -91,7 +95,7 @@ def fill_pdf(complaint_info: PayTransparencyComplaint) -> None:
             "fill_form",
             str(fdf_file),
             "output",
-            "output.pdf",
+            output_file,
             "flatten",
         ]
         print("+ " + " ".join(cmd))
