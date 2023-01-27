@@ -67,6 +67,15 @@ epoa-job-ad \
     -i "This job ad is public, contains specific job requirements for a job in WA, but lists no pay range"
 ```
 
+Word(s) can be redacted from evidence file attachments on a best effort basis:
+```shell
+epoa-job-ad \
+    --email anon.e.mouse@example.com \
+    "ACME Anti-Pay Ranges, Inc." \
+    saved_job_ad.pdf \
+    -r remove_this_word -r also_remove_this_word
+```
+
 Each of these examples creates a file such as
 `john-q-public-acme-anti-pay-ranges-inc-20230101-pay-transparency-complaint.pdf`
 which can then be [uploaded to WA L&I][li-file-upload].
