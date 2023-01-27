@@ -45,7 +45,7 @@ pytest-github-actions-annotate-failures = "*"
 pytest-sugar = "*"
 
 [tool.poetry.scripts]
-epoa-salary = "epoa_tools.salary_range:main"
+epoa-job-ad = "epoa_tools.job_ad:main"
 
 [tool.poetry-dynamic-versioning]
 enable = true

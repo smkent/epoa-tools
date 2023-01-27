@@ -35,13 +35,13 @@ pip install epoa-tools
 Save a PDF file with evidence of the violation (e.g. job ad or recruiter email).
 Browsers can print or save web pages as PDFs.
 
-Then, use `epoa-salary` to complete the complaint form, attaching your evidence
+Then, use `epoa-job-ad` to complete the complaint form, attaching your evidence
 file:
 
 ```shell
-epoa-salary \
+epoa-job-ad \
     --name "John Q. Public" --email john.q.public@example.com \
-    "ACME Anti-Salary Ranges, Inc." \
+    "ACME Anti-Pay Ranges, Inc." \
     saved_job_ad.pdf
 ```
 
@@ -50,9 +50,9 @@ form will be listed as `Anonymous` and the signature line will contain
 `Anonymous (your.email.address@example.com)`:
 
 ```shell
-epoa-salary \
+epoa-job-ad \
     --email anon.e.mouse@example.com \
-    "ACME Anti-Salary Ranges, Inc." \
+    "ACME Anti-Pay Ranges, Inc." \
     saved_job_ad.pdf
 ```
 
@@ -60,15 +60,15 @@ Optionally include additional information text about your complaint with the
 `-i` / `--addinfo` / `--additional-information` option:
 
 ```shell
-epoa-salary \
+epoa-job-ad \
     --email anon.e.mouse@example.com \
-    "ACME Anti-Salary Ranges, Inc." \
+    "ACME Anti-Pay Ranges, Inc." \
     saved_job_ad.pdf \
-    -i "This job ad is public, contains specific job requirements for a job in WA, but lists no salary range"
+    -i "This job ad is public, contains specific job requirements for a job in WA, but lists no pay range"
 ```
 
 Each of these examples creates a file such as
-`john-q-public-acme-anti-salary-ranges-inc-20230101-pay-transparency-complaint.pdf`
+`john-q-public-acme-anti-pay-ranges-inc-20230101-pay-transparency-complaint.pdf`
 which can then be [uploaded to WA L&I][li-file-upload].
 
 ## Development
