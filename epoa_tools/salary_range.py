@@ -4,7 +4,7 @@ from datetime import datetime
 from slugify import slugify
 
 from .models import MyInfo, PayTransparencyComplaint
-from .pdf import create_pdf
+from .pdf import ComplaintForm
 
 
 def build_pay_transparency_complaint() -> PayTransparencyComplaint:
@@ -56,4 +56,5 @@ def main() -> None:
             f"-{datetime.now().strftime('%Y%m%d')}"
         )
     )
-    create_pdf(ptc, output_file, overwrite=True)
+    cf = ComplaintForm(ptc)
+    cf.pdf(output_file, overwrite=True)
