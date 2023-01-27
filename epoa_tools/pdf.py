@@ -67,6 +67,18 @@ def complaint_to_fdf(
                 " compensation on a job posting"
             ): "Yes",
             # Section B
+            "Name of Company (Business Name)": data.company_name,
+            "Company Contact (Owner, Manager, or Supervisor) Name": (
+                data.company_name
+            ),
+            "Company Mailing Address (if different from where you worked)": (
+                data.company_name
+            ),
+            "Company Mailing Address City": data.company_name,
+            "Company Mailing Address State": data.company_name,
+            "Company Mailing Address Zip Code": data.company_name,
+            "Company Phone Number": data.company_name,
+            "Company Email Address": data.company_name,
             "Is the company still in business?": "Yes",
             # Section C
             (
