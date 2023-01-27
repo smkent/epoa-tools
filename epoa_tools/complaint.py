@@ -173,16 +173,16 @@ class ComplaintForm:
             topMargin=2 * cm,
             bottomMargin=2 * cm,
         )
+        text_style = getSampleStyleSheet()["Normal"]
+        text_style.fontSize = 14
+        text_style.leading = 20
         doc.build(
             [
                 Paragraph(
                     _text("Additional complaint information\n\n"),
                     getSampleStyleSheet()["Heading1"],
                 ),
-                Paragraph(
-                    _text(self.data.additional_information),
-                    getSampleStyleSheet()["Normal"],
-                ),
+                Paragraph(_text(self.data.additional_information), text_style),
             ]
         )
 
