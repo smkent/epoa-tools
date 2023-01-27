@@ -3,45 +3,13 @@ import subprocess
 import tempfile
 from importlib import resources
 from pathlib import Path
+from typing import Dict, Iterable, Tuple
 
 from fdfgen import forge_fdf
 
+from .models import PayTransparencyComplaint
+
 FORM_FILE = "F700-200-000.pdf"
-
-
-FDF_FIELDS = {
-    # Section A
-    "Name (As it appears on your ID - First Middle Last Name)": "Anonymous",
-    "Preferred Language": "English",
-    "Mailing Address": "N/A",
-    "Mailing Address City": "N/A",
-    "Mailing Address State": "N/A",
-    "Mailing Address Zip Code": "N/A",
-    "Phone Number": "N/A",
-    "Email Address": "example@example.com",
-    "Starting Date with this Employer": "N/A",
-    "Are you still employed with the employer?": "Choice1",  # "No"
-    'If "No", last date employed': "N/A",
-    "Reason for Leaving": "Don't Know/Other",
-    "Reason for Leaving: Don't Know/Other Specified": "N/A",
-    "What kind of work do you do?": "Identify violations of RCW 49.58.110",
-    (
-        "Not providing wage or salary range, benefits, and other"
-        " compensation on a job posting"
-    ): "Yes",
-    # Section B
-    "Is the company still in business?": "Yes",
-    # Section C
-    (
-        "By submitting this form, I am confirming the information provided"
-        " is accurate and true. I am also agreeing to cooperate and"
-        " communicate with my assigned investigator."
-        " My name on this form constitutes my signature"
-    ): "Yes",
-    # Section D
-    "Signature (Print or Type)": "John Q. Public",
-    "Signature Date": str(datetime.datetime.now().strftime("%B %-d, %Y")),
-}
 
 
 def form_path() -> Path:
@@ -56,11 +24,67 @@ def form_path() -> Path:
             return path
 
 
-def fill_pdf() -> None:
+def complaint_to_fdf(
+    data: PayTransparencyComplaint,
+) -> Iterable[Tuple[str, str]]:
+    name = data.my_info.name or "Anonymous"
+
+    fdf_fields: Dict[str, str] = {}
+    fdf_fields.update(
+        {
+            # Section A
+            "Name (As it appears on your ID - First Middle Last Name)": name,
+            "Preferred Language": "English",
+        }
+    )
+    if data.my_info.address:
+        fdf_fields.update(
+            {
+                "Mailing Address": data.my_info.address.street,
+                "Mailing Address City": data.my_info.address.city,
+                "Mailing Address State": data.my_info.address.state,
+                "Mailing Address Zip Code": str(data.my_info.address.zip_code),
+            }
+        )
+    fdf_fields.update(
+        {
+            "Phone Number": data.my_info.phone or "",
+            "Email Address": data.my_info.email or "",
+            "Starting Date with this Employer": "",
+            "Are you still employed with the employer?": "Choice1",  # "No"
+            'If "No", last date employed': "",
+            "Reason for Leaving": "Don't Know/Other",
+            "Reason for Leaving: Don't Know/Other Specified": "",
+            "What kind of work do you do?": "",
+            (
+                "Not providing wage or salary range, benefits, and other"
+                " compensation on a job posting"
+            ): "Yes",
+            # Section B
+            "Is the company still in business?": "Yes",
+            # Section C
+            (
+                "By submitting this form, I am confirming the"
+                " information provided is accurate and true."
+                " I am also agreeing to cooperate and"
+                " communicate with my assigned investigator."
+                " My name on this form constitutes my signature"
+            ): "Yes",
+            # Section D
+            "Signature (Print or Type)": name,
+            "Signature Date": str(
+                datetime.datetime.now().strftime("%B %-d, %Y")
+            ),
+        }
+    )
+    return fdf_fields.items()
+
+
+def fill_pdf(complaint_info: PayTransparencyComplaint) -> None:
     with tempfile.TemporaryDirectory() as td:
         fdf_file = Path(td) / "form.fdf"
         with open(fdf_file, "wb") as f:
-            f.write(forge_fdf("", FDF_FIELDS.items()))
+            f.write(forge_fdf("", complaint_to_fdf(complaint_info)))
         cmd = [
             "pdftk",
             str(form_path()),
