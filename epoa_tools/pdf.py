@@ -7,6 +7,10 @@ from pathlib import Path
 from typing import Dict, Iterable, Tuple
 
 from fdfgen import forge_fdf
+from reportlab.lib.pagesizes import LETTER  # type: ignore
+from reportlab.lib.styles import getSampleStyleSheet  # type: ignore
+from reportlab.lib.units import cm  # type: ignore
+from reportlab.platypus import Paragraph, SimpleDocTemplate  # type: ignore
 
 from .models import PayTransparencyComplaint
 
@@ -96,6 +100,31 @@ def complaint_to_fdf(
     return fdf_fields.items()
 
 
+def create_additional_information_pdf(
+    text: str, additional_information_file: Path
+) -> None:
+    def _text(text: str) -> str:
+        return text.replace("\n", "<br />")
+
+    doc = SimpleDocTemplate(
+        str(additional_information_file),
+        pagesize=LETTER,
+        rightMargin=2 * cm,
+        leftMargin=2 * cm,
+        topMargin=2 * cm,
+        bottomMargin=2 * cm,
+    )
+    doc.build(
+        [
+            Paragraph(
+                _text("Additional complaint information\n\n"),
+                getSampleStyleSheet()["Heading1"],
+            ),
+            Paragraph(_text(text), getSampleStyleSheet()["Normal"]),
+        ]
+    )
+
+
 def create_pdf(
     complaint_info: PayTransparencyComplaint,
     output_file: str = "output.pdf",
@@ -106,6 +135,12 @@ def create_pdf(
     with tempfile.TemporaryDirectory() as td:
         fdf_file = Path(td) / "form.fdf"
         filled_file = Path(td) / "filled.pdf"
+        additional_information_file = Path(td) / "additional_info.pdf"
+        if complaint_info.additional_information:
+            create_additional_information_pdf(
+                complaint_info.additional_information,
+                additional_information_file,
+            )
         with open(fdf_file, "wb") as f:
             f.write(forge_fdf("", complaint_to_fdf(complaint_info)))
         _run(
@@ -117,10 +152,18 @@ def create_pdf(
             str(filled_file),
             "flatten",
         )
+        concat_files = (
+            file_name
+            for file_name in (
+                str(filled_file),
+                str(additional_information_file),
+                *complaint_info.evidence_files,
+            )
+            if Path(file_name).exists()
+        )
         _run(
             "pdftk",
-            str(filled_file),
-            *complaint_info.evidence_files,
+            *concat_files,
             "cat",
             "output",
             output_file,
