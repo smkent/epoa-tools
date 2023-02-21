@@ -1,5 +1,7 @@
 # epoa-tools: WA EPOA pay transparency tools
 
+[![PyPI](https://img.shields.io/pypi/v/epoa-tools)][pypi]
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/epoa-tools)][pypi]
 [![Build](https://img.shields.io/github/checks-status/smkent/epoa-tools/main?label=build)][gh-actions]
 [![codecov](https://codecov.io/gh/smkent/epoa-tools/branch/main/graph/badge.svg)][codecov]
 [![GitHub stars](https://img.shields.io/github/stars/smkent/epoa-tools?style=social)][repo]
@@ -25,6 +27,8 @@ sudo apt install pdftk-java
 ```
 
 ## Installation
+
+[epoa-tools is available on PyPI][pypi]:
 
 ```
 pip install epoa-tools
@@ -121,4 +125,5 @@ Created from [smkent/cookie-python][cookie-python] using
 [pipx]: https://pypa.github.io/pipx/
 [poetry]: https://python-poetry.org/docs/#installation
 [rcw]: https://app.leg.wa.gov/RCW/default.aspx?cite=49.58.110
+[pypi]: https://pypi.org/project/epoa-tools/
 [repo]: https://github.com/smkent/epoa-tools
