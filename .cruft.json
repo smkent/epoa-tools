@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/smkent/cookie-python",
-  "commit": "ae5c42761c7903b4c6238c1c6e8f91121866db89",
+  "commit": "7025e55adab820dd8e63d8be0e0ec0cabad0d830",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -14,7 +14,8 @@
       "author_name": "Stephen Kent",
       "author_email": "smkent@smkent.net",
       "github_user": "smkent",
-      "_template": "https://github.com/smkent/cookie-python"
+      "_template": "https://github.com/smkent/cookie-python",
+      "_commit": "7025e55adab820dd8e63d8be0e0ec0cabad0d830"
     }
   },
   "directory": null
