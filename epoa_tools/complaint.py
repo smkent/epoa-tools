@@ -4,7 +4,7 @@ import tempfile
 from datetime import datetime
 from importlib import resources
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from collections.abc import Iterable
 
 from fdfgen import forge_fdf
 from reportlab.lib.pagesizes import LETTER  # type: ignore
@@ -73,13 +73,13 @@ class ComplaintForm:
 
     def _complaint_data_to_form_data(
         self,
-    ) -> Iterable[Tuple[str, str]]:
+    ) -> Iterable[tuple[str, str]]:
         name = self.data.my_info.name or "Anonymous"
         signature_name = (
             self.data.my_info.name or f"Anonymous ({self.data.my_info.email})"
         )
 
-        fdf_fields: Dict[str, str] = {}
+        fdf_fields: dict[str, str] = {}
         fdf_fields.update(
             {
                 # Section A
@@ -186,7 +186,7 @@ class ComplaintForm:
             ]
         )
 
-    def _redact_evidence_files(self, temp_dir: Path) -> List[str]:
+    def _redact_evidence_files(self, temp_dir: Path) -> list[str]:
         redactor = Redactor(self.data.redact_words)
         redacted_evidence_files = []
         for i, evidence_file in enumerate(self.data.evidence_files):
