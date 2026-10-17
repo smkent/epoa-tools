@@ -1,4 +1,10 @@
-# epoa-tools: WA EPOA pay transparency tools
+> [!WARNING]
+>
+> **epoa-tools is deprecated!** No further maintenance or updates are planned.
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+# DEPRECATED: epoa-tools: WA EPOA pay transparency tools
 
 [![PyPI](https://img.shields.io/pypi/v/epoa-tools)][pypi]
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/epoa-tools)][pypi]
