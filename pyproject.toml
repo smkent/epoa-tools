@@ -10,7 +10,7 @@ authors = [ { name = "Stephen Kent", email = "smkent@smkent.net" } ]
 readme = "README.md"
 repository = "https://github.com/smkent/epoa-tools"
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 7 - Inactive",
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
